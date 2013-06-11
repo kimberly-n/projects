@@ -1,0 +1,18 @@
+#!/bin/bash
+#Script that gets all compound words from wikipedia list
+
+CURR_ADDS="http://en.wiktionary.org/w/index.php?title=Category:English_compound_words&pagefrom=youngblood%0Ayoungblood#mw-pages"
+
+CURR_ADD="http://en.wiktionary.org/w/index.php?title=Category:English_compound_words&pagefrom=A"
+REST="start"
+F_HALF="http://en.wiktionary.org/w/index.php?title=Category:English_compound_words&"
+L_HALF="#mw-pages"
+
+
+
+curl $CURR_ADD >original.html
+grep "<li><a href=\"/wiki/" <original.html >compound-list.html
+
+REST=$(cat original.html | grep "next 200" |cut -d';' -f3|cut -d'#' -f1 |tail -1)
+NEXT_ADDR="$F_HALF$REST$L_HALF"
+echo $NEXT_ADDR
